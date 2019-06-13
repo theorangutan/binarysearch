@@ -1,8 +1,9 @@
 package main
 
-// binarySearch is a recursive algorithm for finding x in arr
-func iterativeBinarySearch(arr []int, search int) int {
-	for l, r := 0, len(arr)-1; l <= r; {
+// iterativeBinarySearch is an iterative algorithm for finding x in arr
+// return is the index where x is located, or -1 (not found)
+func iterativeBinarySearch(arr []int, l, r, search int) int {
+	for l <= r {
 		mid := (l + r) / 2
 		if arr[mid] < search {
 			l = mid + 1
@@ -15,6 +16,18 @@ func iterativeBinarySearch(arr []int, search int) int {
 	return -1
 }
 
-func recursiveBinarySearch(arr []int, search int) int {
-	return 0
+// recursiveBinarySearch is a recursive algorithm for finding x in arr
+// return is the index where x is located, or -1 (not found)
+func recursiveBinarySearch(arr []int, l, r, search int) int {
+	if r >= l {
+		mid := l + (r-l)/2
+		if arr[mid] == search {
+			return mid
+		}
+		if arr[mid] > search {
+			return recursiveBinarySearch(arr, l, mid-1, search)
+		}
+		return recursiveBinarySearch(arr, mid+1, r, search)
+	}
+	return -1
 }
