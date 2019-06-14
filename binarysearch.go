@@ -24,16 +24,19 @@ func Recursive(arr []int, term int) int {
 
 // recursive is a recursive algorithm for finding term in arr
 // return is the index where term is located, or -1 (not found)
-func recursive(arr []int, l, r, search int) int {
-	if r >= l {
-		mid := l + (r-l)/2
-		if arr[mid] == search {
-			return mid
-		}
-		if arr[mid] > search {
-			return recursive(arr, l, mid-1, search)
-		}
-		return recursive(arr, mid+1, r, search)
+func recursive(arr []int, l, r, term int) int {
+	if l > r {
+		return -1
 	}
-	return -1
+
+	mid := l + (r-l)/2
+
+	if arr[mid] > term {
+		return recursive(arr, l, mid-1, term)
+	}
+	if arr[mid] < term {
+		return recursive(arr, mid+1, r, term)
+	}
+
+	return mid
 }
