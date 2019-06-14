@@ -14,7 +14,7 @@ var (
 func init() {
 	rand.Seed(time.Now().Unix())
 
-	arr = rand.Perm(20000)[1000:1999]
+	arr = rand.Perm(20000)[3000:3999]
 	sort.Ints(arr)
 }
 

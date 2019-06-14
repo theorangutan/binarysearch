@@ -5,8 +5,6 @@
 *.so
 *.dylib
 
-search-and-sort
-
 # Test binary, built with `go test -c`
 *.test
 
