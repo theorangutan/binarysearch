@@ -16,6 +16,8 @@ func init() {
 	sort.Ints(arr)
 }
 
+// TestIterativeExisting pulls an expected value then searches
+// for that value using the Iterative method of binarysearch
 func TestIterativeExisting(t *testing.T) {
 	expected := rand.Intn(len(arr) - 1)
 	term := arr[expected]
@@ -27,6 +29,8 @@ func TestIterativeExisting(t *testing.T) {
 	}
 }
 
+// TestIterativeNotExisting checks for a -1 return on value
+// that should not exist
 func TestIterativeNotExisting(t *testing.T) {
 	found := Iterative(arr, -2)
 	if found != -1 {
@@ -34,6 +38,8 @@ func TestIterativeNotExisting(t *testing.T) {
 	}
 }
 
+// TestRecursiveExisting pulls an expected value then searches
+// for that value using the Recursive method of binarysearch
 func TestRecursiveExisting(t *testing.T) {
 	expected := rand.Intn(len(arr) - 1)
 	term := arr[expected]
@@ -45,6 +51,8 @@ func TestRecursiveExisting(t *testing.T) {
 	}
 }
 
+// TestRecursiveNotExisting checks for a -1 return on value
+// that should not exist
 func TestRecursiveNotExisting(t *testing.T) {
 	found := Recursive(arr, -2)
 	if found != -1 {
@@ -52,6 +60,8 @@ func TestRecursiveNotExisting(t *testing.T) {
 	}
 }
 
+// benchmarkSearch is a wrapper function for running different benchmarks
+// with given parameters
 func benchmarkSearch(i int, f func(arr []int, term int) int, b *testing.B) {
 	arr := rand.Perm(i * 20)[i : i*2-1]
 	sort.Ints(arr)
