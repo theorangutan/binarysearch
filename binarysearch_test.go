@@ -7,9 +7,7 @@ import (
 	"time"
 )
 
-var (
-	arr []int
-)
+var arr []int
 
 func init() {
 	rand.Seed(time.Now().Unix())
