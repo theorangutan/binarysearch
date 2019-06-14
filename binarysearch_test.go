@@ -1,53 +1,89 @@
 package binarysearch
 
-import "testing"
+import (
+	"math/rand"
+	"sort"
+	"testing"
+	"time"
+)
+
+var (
+	arr []int
+)
+
+func init() {
+	rand.Seed(time.Now().Unix())
+
+	arr = rand.Perm(20000)[1000:1999]
+	sort.Ints(arr)
+}
 
 func TestIterativeExisting(t *testing.T) {
-	arr := []int{0, 1, 2, 3, 4, 5}
+	expected := rand.Intn(len(arr) - 1)
+	term := arr[expected]
 
-	for idx, val := range arr {
-		if tmp := Iterative(arr, val); tmp != idx {
-			t.Errorf("expected %d, got %d", idx, tmp)
-		}
+	found := Iterative(arr, term)
+
+	if found != expected {
+		t.Fatalf("expected %d, got %d", expected, found)
 	}
 }
 
 func TestIterativeNotExisting(t *testing.T) {
-	arr := []int{0, 1, 2, 3}
-
-	if tmp := Iterative(arr, 5); tmp != -1 {
-		t.Errorf("expected -1, got %d", tmp)
+	found := Iterative(arr, -2)
+	if found != -1 {
+		t.Fatalf("expected -1, got %d", found)
 	}
 }
 
 func TestRecursiveExisting(t *testing.T) {
-	arr := []int{0, 1, 2, 3, 4, 5}
+	expected := rand.Intn(len(arr) - 1)
+	term := arr[expected]
 
-	for idx, val := range arr {
-		if tmp := Recursive(arr, val); tmp != idx {
-			t.Errorf("expected %d, got %d", idx, tmp)
-		}
+	found := Recursive(arr, term)
+
+	if found != expected {
+		t.Fatalf("expected %d, got %d", expected, found)
 	}
 }
 
 func TestRecursiveNotExisting(t *testing.T) {
-	arr := []int{0, 1, 2, 3}
-
-	if tmp := Recursive(arr, 5); tmp != -1 {
-		t.Errorf("expected -1, got %d", tmp)
+	found := Recursive(arr, -2)
+	if found != -1 {
+		t.Fatalf("expected -1, got %d", found)
 	}
 }
 
-func BenchmarkIterative(b *testing.B) {
-	arr := []int{0, 1, 2, 3, 4, 5, 6}
+func benchmarkSearch(i int, f func(arr []int, term int) int, b *testing.B) {
+	arr := rand.Perm(i * 20)[i : i*2-1]
+	sort.Ints(arr)
+
 	for n := 0; n < b.N; n++ {
-		Iterative(arr, 1)
+		term := arr[rand.Intn(len(arr)-1)]
+		f(arr, term)
 	}
 }
 
-func BenchmarkRecursive(b *testing.B) {
-	arr := []int{0, 1, 2, 3, 4, 5, 6}
-	for n := 0; n < b.N; n++ {
-		Recursive(arr, 1)
-	}
+func BenchmarkIterative10(b *testing.B) {
+	benchmarkSearch(10, Iterative, b)
+}
+
+func BenchmarkIterative100(b *testing.B) {
+	benchmarkSearch(100, Iterative, b)
+}
+
+func BenchmarkIterative1000(b *testing.B) {
+	benchmarkSearch(1000, Iterative, b)
+}
+
+func BenchmarkRecursive10(b *testing.B) {
+	benchmarkSearch(10, Recursive, b)
+}
+
+func BenchmarkRecursive100(b *testing.B) {
+	benchmarkSearch(100, Recursive, b)
+}
+
+func BenchmarkRecursive1000(b *testing.B) {
+	benchmarkSearch(1000, Recursive, b)
 }
